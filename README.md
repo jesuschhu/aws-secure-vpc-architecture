@@ -16,4 +16,4 @@ La implementación de esta arquitectura responde a los siguientes criterios téc
 ## Diagrama de Arquitectura
 El siguiente esquema detalla el flujo de datos, la segmentación de subredes y la ubicación de los componentes de red dentro de la VPC.
 
-![Arquitectura de Red](./assets/diagrama-arquitectura.png)
+![Arquitectura de Red](./assets/diagramainicial.png)
