@@ -1,23 +1,19 @@
-# Fase 1: Detalles de configuración de la VPC
+# Arquitectura de Red Segura en AWS
 
-Para la creación del contenedor de red, los parámetros seleccionados en la consola se definen de la siguiente manera:
+## Contexto del Proyecto
+Este proyecto consiste en el diseño e implementación de una infraestructura de red empresarial dentro de Amazon Web Services (AWS). El despliegue se centra en la creación de una Virtual Private Cloud (VPC) estructurada en tres capas, permitiendo una separación lógica y física entre los puntos de entrada públicos y los recursos críticos de procesamiento de datos.
 
-### Recursos que se van a crear
-**Solo la VPC**: Esta opción indica que AWS creará únicamente el límite lógico de la red. No se generarán subredes, gateways ni tablas de enrutamiento de forma automática, permitiendo una construcción manual y personalizada de cada componente.
+La necesidad surge de la arquitectura de aplicaciones web modernas, donde exponer directamente un servidor de aplicaciones a internet representa un riesgo de seguridad elevado. Mediante esta segmentación, se establece un perímetro controlado donde solo los servidores proxy autorizados pueden comunicarse con la capa interna de la aplicación.
 
-### Etiqueta de nombre
-**VPC-Jesus**: Es el identificador asignado al recurso mediante etiquetas (Tags). Este nombre permite organizar y filtrar la red dentro del panel de administración de AWS.
+## Justificación y Beneficios
+La implementación de esta arquitectura responde a los siguientes criterios técnicos:
 
-### Bloque de CIDR IPv4
-**Entrada manual**: Permite definir específicamente el rango de direcciones IP privadas que tendrá la red.
-**10.0.0.0/16**: Este valor determina el tamaño de la red.
-> **Nota técnica**: Un bloque /16 proporciona 65,536 direcciones IP. Se elige sobre un bloque /24 para garantizar que exista espacio suficiente al segmentar la arquitectura en subredes públicas y privadas, evitando limitaciones de direccionamiento a futuro.
+* **Reducción de la superficie de ataque**: Al ubicar el servidor de aplicaciones en una subred privada, se eliminan los vectores de ataque directos desde el exterior, ya que el recurso carece de una dirección IP pública.
+* **Control de tráfico de salida**: El uso de un NAT Gateway permite que los recursos internos realicen peticiones hacia internet (como actualizaciones de seguridad) sin permitir que actores externos inicien conexiones no solicitadas hacia la red privada.
+* **Seguridad basada en identidad**: El filtrado de red se gestiona a través de Security Groups que referencian otros grupos de seguridad en lugar de direcciones IP estáticas. Esto permite una red dinámica y escalable donde la confianza se basa en el rol del recurso y no en su ubicación lógica.
+* **Administración segura**: El acceso a la infraestructura para tareas de mantenimiento se realiza mediante métodos que no exponen puertos críticos al tráfico global, utilizando un host bastión o servicios de gestión nativos de AWS.
 
-### Bloque de CIDR IPv6
-**Sin bloque de CIDR IPv6**: Se ha optado por no asignar direccionamiento IPv6 para simplificar la configuración de las reglas de filtrado en los Security Groups y Network ACLs.
+## Diagrama de Arquitectura
+El siguiente esquema detalla el flujo de datos, la segmentación de subredes y la ubicación de los componentes de red dentro de la VPC.
 
-### Tenencia
-**Predeterminado**: Indica que la VPC y las instancias se ejecutarán sobre hardware compartido, siendo la opción estándar para optimizar costos en entornos de desarrollo o laboratorio.
-
-### Control de cifrado de VPC
-**Ninguno**: No se aplica una capa de cifrado de red adicional gestionada por AWS para el tráfico entre instancias, evitando latencia o costos innecesarios en esta fase.
+![Arquitectura de Red](./assets/diagrama-arquitectura.png)
