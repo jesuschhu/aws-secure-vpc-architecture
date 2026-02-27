@@ -75,4 +75,4 @@ Se han definido tres subredes bajo el bloque CIDR 10.0.0.0/16 siguiendo un esque
 5. Finalizar el proceso seleccionando **Create subnet**.
 
 ### Evidencia de Configuración
-![Configuración de Subredes en Ohio](./assets/fase2-subnets-config.png)
+![Configuración de Subredes en Ohio](./assets/fase2-subred-config.png)
