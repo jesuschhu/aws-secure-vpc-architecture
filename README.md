@@ -39,7 +39,40 @@ Para la creación del contenedor de red, los parámetros seleccionados en la con
 ### Tenencia
 **Predeterminado**: Indica que la VPC y las instancias que se lancen en ella se ejecutarán sobre hardware compartido con otros usuarios de AWS. Es la opción estándar y de menor costo.
 
-![Configuración de la VPC en AWS](./assets/fase1-vpc-config.png)
 
 ### Control de cifrado de VPC
 **Ninguno**: No se aplica una capa de cifrado de red adicional gestionada por AWS para el tráfico entre instancias. Esto evita costos operativos y de procesamiento innecesarios para un entorno de laboratorio.
+
+![Configuración de la VPC en AWS](./assets/fase1-vpc-config.png)
+
+# Fase 2: Creación y segmentación de Subredes
+
+Una vez establecida la VPC, el siguiente paso es la división del espacio de direccionamiento en subredes lógicas para separar los componentes de la infraestructura según su función y nivel de exposición.
+
+### Configuración de Subredes
+Se han definido tres subredes bajo el bloque CIDR 10.0.0.0/16 siguiendo un esquema de direccionamiento /24:
+
+1. **SubnetPublic1**:
+    * **Bloque CIDR**: 10.0.1.0/24
+    * **Zona de disponibilidad**: us-east-2a
+    * **Función**: Segmento público destinado al primer ProxyServer.
+
+2. **SubnetPublic2**:
+    * **Bloque CIDR**: 10.0.2.0/24
+    * **Zona de disponibilidad**: us-east-2a
+    * **Función**: Segmento público destinado al segundo servidor de entrada (ProxyServer2)
+
+3. **SubnetPrivate1**:
+    * **Bloque CIDR**: 10.0.3.0/24
+    * **Zona de disponibilidad**: us-east-2a
+    * **Función**: Zona aislada para el servidor de aplicaciones (pweb), restringiendo el acceso directo desde internet.
+
+### Pasos en consola
+1. Acceder a la sección de **Subnets** dentro del panel de Amazon VPC.
+2. Seleccionar **Create subnet** y asociar los recursos a la VPC-Jesús.
+3. Definir los nombres, zonas de disponibilidad y bloques CIDR correspondientes para cada uno de los tres segmentos.
+4. Configurar la etiqueta Name para facilitar la identificación administrativa de cada subred.
+5. Finalizar el proceso seleccionando **Create subnet**.
+
+### Evidencia de Configuración
+![Configuración de Subredes en Ohio](./assets/fase2-subnets-config.png)
