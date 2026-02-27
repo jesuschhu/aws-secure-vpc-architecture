@@ -39,5 +39,7 @@ Para la creación del contenedor de red, los parámetros seleccionados en la con
 ### Tenencia
 **Predeterminado**: Indica que la VPC y las instancias que se lancen en ella se ejecutarán sobre hardware compartido con otros usuarios de AWS. Es la opción estándar y de menor costo.
 
+![Configuración de la VPC en AWS](./assets/fase1-vpc-config.png)
+
 ### Control de cifrado de VPC
 **Ninguno**: No se aplica una capa de cifrado de red adicional gestionada por AWS para el tráfico entre instancias. Esto evita costos operativos y de procesamiento innecesarios para un entorno de laboratorio.
