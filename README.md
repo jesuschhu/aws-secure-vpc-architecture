@@ -181,5 +181,35 @@ El núcleo de la aplicación se encuentra en un entorno estrictamente aislado.
 * **Auto-assign Public IP**: **Disabled**. Por diseño de seguridad, este servidor no tiene visibilidad directa desde internet, mitigando ataques de fuerza bruta o escaneos externos.
 * **Security Group**: `SecurityG3`. Solo permite tráfico entrante si el origen son los IDs de `SecurityG1` o `SecurityG2`.
 
+
 ---
 ![Configuración del EC1-proxyServer3](./assets/fas5-ec2-proxy3.png)
+
+
+Para verificar el mapa: 
+
+![mapa](./assets/mapafinal.png)
+
+
+por último la arquitectura nos quedaría de la siguiente forma: 
+
+![Arquitectura-Final](./assets/ArquiFinal.png)
+
+# Conclusiones y Beneficios de la Arquitectura
+
+El despliegue de la infraestructura **VPC-Jesus** en la región de Ohio representa una solución robusta basada en el modelo de capas, priorizando la seguridad del dato y la resiliencia del servicio.
+
+### Conclusión Técnica
+Se ha logrado implementar con éxito un entorno de red segmentado donde la lógica de negocio (`pweb`) se encuentra totalmente aislada de vectores de ataque externos. La integración de tablas de enrutamiento específicas y firewalls con estado (Security Groups) garantiza que el flujo de tráfico sea legítimo y controlado en todo momento.
+
+### Beneficios Implementados
+
+* **Seguridad Perimetral (Aislamiento)**: El uso de subredes privadas para el backend (`pweb`) asegura que el servidor de aplicaciones sea invisible para escaneos de red públicos, reduciendo drásticamente la superficie de ataque.
+* **Micro-segmentación (SG Chaining)**: Al configurar el `SecurityG3` para aceptar tráfico únicamente desde los IDs de `SecurityG1` y `SecurityG2`, se aplica una capa de seguridad donde solo los proxies autorizados pueden comunicarse con la app.
+* **Alta Disponibilidad (Multi-AZ)**: La distribución de los puntos de entrada (`ProxyServer1` y `ProxyServer2`) en diferentes zonas de disponibilidad asegura la continuidad del negocio ante posibles fallos de infraestructura en un centro de datos específico.
+* **Optimización de Costos**: La arquitectura se apoya enteramente en recursos de la **Capa Gratuita de AWS** (`t2.micro`), demostrando que es posible diseñar entornos seguros y escalables sin incurrir en costos operativos iniciales.
+* **Escalabilidad Horizontal**: El diseño permite añadir n-cantidad de servidores adicionales en las subredes existentes sin necesidad de reconfigurar la topología de red base.
+
+---
+**Proyecto finalizado por: Jesús Angel Chávez Huamán**
+
