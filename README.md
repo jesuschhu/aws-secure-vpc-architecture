@@ -86,4 +86,4 @@ El Internet Gateway es el componente de VPC que permite la comunicación entre l
 * **Nombre**: `IGW-Jesus`
 * **Acción**: Creación del recurso y asociación (Attach) a la `VPC-Jesús`.
 
-![Configuración de Gateway](./assets/fase3-gateway-config)
+![Configuración de Gateway](./assets/fase3-gateway-config.png)
