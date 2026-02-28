@@ -118,3 +118,17 @@ En este punto es donde se establece la diferencia técnica y lógica entre los s
 > **Dato técnico**: La tabla **Private-RT** no requiere este paso. Al mantener únicamente la ruta `local` ($10.0.0.0/16$), se garantiza que el tráfico de esa subred permanezca dentro de la VPC, protegiendo al servidor de aplicaciones contra accesos no autorizados desde el exterior.
 
 ![Configuración de Gateway](./assets/fase3-internetgateway-config.png)
+
+# Fase 4: Seguridad y Control de Acceso (Security Groups)
+
+En esta fase se implementa la capa de seguridad perimetral y de host mediante el uso de **Security Groups**. Estos actúan como firewalls con estado (*stateful*) a nivel de instancia, permitiendo filtrar el tráfico entrante y saliente según reglas específicas de protocolos y puertos.
+
+### Estrategia de "Defensa en Profundidad"
+Para proteger el servidor de aplicaciones (`pweb`), se ha optado por una configuración de filtrado jerárquico:
+
+#### 1. Grupo de Seguridad: SG-Proxies
+Este grupo protege a los servidores situados en las subredes públicas (`SubnetPublic1` y `SubnetPublic2`).
+* **Inbound Rules (Entrada)**:
+    * **HTTP (80)**: Permitido desde `0.0.0.0/0`. Permite el acceso web público a los proxies.
+    * **SSH (22)**: Permitido únicamente desde la **IP administrativa** del administrador para tareas de gestión segura.
+* **Outbound Rules (Salida)**: Permitido todo el tráfico por defecto (Stateful).
