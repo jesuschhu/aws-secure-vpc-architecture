@@ -87,3 +87,19 @@ El Internet Gateway es el componente de VPC que permite la comunicación entre l
 * **Acción**: Creación del recurso y asociación (Attach) a la `VPC-Jesús`.
 
 ![Configuración de Gateway](./assets/fase3-gateway-config.png)
+
+
+### 2. Tablas de Enrutamiento (Route Tables)
+Se han creado tablas diferenciadas para gestionar el tráfico según el nivel de exposición de las subredes:
+
+#### Tabla Pública (Public-RT)
+Asociada a `SubnetPublic1` y `SubnetPublic2`.
+* **Ruta Local**: `10.0.0.0/16` -> `local` (Tráfico interno de la VPC).
+* **Ruta de Internet**: `0.0.0.0/0` -> `IGW-Jesus` (Todo el tráfico externo se dirige al Gateway).
+
+#### Tabla Privada (Private-RT)
+Asociada a `SubnetPrivate1`.
+* **Ruta Local**: `10.0.0.0/16` -> `local`.
+* **Nota**: Por diseño, esta tabla no cuenta con una ruta directa hacia el Internet Gateway, manteniendo el aislamiento del servidor de aplicaciones.
+
+![Configuración de Gateway](./assets/fase3-tableroute-config.png)
