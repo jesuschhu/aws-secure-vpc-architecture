@@ -76,3 +76,14 @@ Se han definido tres subredes bajo el bloque CIDR 10.0.0.0/16 siguiendo un esque
 
 ### Evidencia de Configuración
 ![Configuración de Subredes en Ohio](./assets/fase2-subred-config.png)
+
+# Fase 3: Conectividad y Enrutamiento
+
+En esta etapa se configura el punto de salida a internet y se definen las reglas de navegación para que las subredes públicas puedan comunicarse con el exterior.
+
+### 1. Internet Gateway (IGW)
+El Internet Gateway es el componente de VPC que permite la comunicación entre los recursos dentro de la red privada e internet.
+* **Nombre**: `IGW-Jesus`
+* **Acción**: Creación del recurso y asociación (Attach) a la `VPC-Jesús`.
+
+![Configuración de Gateway](./assets/fase3-gateway-config)
