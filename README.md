@@ -103,3 +103,18 @@ Asociada a `SubnetPrivate1`.
 * **Nota**: Por diseño, esta tabla no cuenta con una ruta directa hacia el Internet Gateway, manteniendo el aislamiento del servidor de aplicaciones.
 
 ![Configuración de Gateway](./assets/fase3-tableroute-config.png)
+
+
+### Paso 3: Configurar la Ruta de Internet (Solo para la Pública)
+
+En este punto es donde se establece la diferencia técnica y lógica entre los segmentos públicos y privados de la arquitectura.
+
+1. **Selección de Tabla**: Se debe identificar y seleccionar la tabla **Public-RT** en el panel de administración de VPC.
+2. **Acceso a Rutas**: En el panel inferior, navegar a la pestaña **Routes** y seleccionar el botón **Edit routes**.
+3. **Definición de Salida**: Seleccionar **Add route** e ingresar el valor **0.0.0.0/0** en el campo *Destination*. Este parámetro representa cualquier dirección IP que no pertenezca a la red local.
+4. **Asignación de Target**: En la columna *Target*, seleccionar la opción **Internet Gateway** y elegir el recurso **IGW-Jesus**.
+5. **Persistencia**: Seleccionar **Save changes** para activar la conectividad externa en las subredes asociadas.
+
+> **Dato técnico**: La tabla **Private-RT** no requiere este paso. Al mantener únicamente la ruta `local` ($10.0.0.0/16$), se garantiza que el tráfico de esa subred permanezca dentro de la VPC, protegiendo al servidor de aplicaciones contra accesos no autorizados desde el exterior.
+
+![Configuración de Gateway](./assets/fase3-internetgateway-config.png)
