@@ -117,7 +117,7 @@ En este punto es donde se establece la diferencia técnica y lógica entre los s
 
 > **Dato técnico**: La tabla **Private-RT** no requiere este paso. Al mantener únicamente la ruta `local` ($10.0.0.0/16$), se garantiza que el tráfico de esa subred permanezca dentro de la VPC, protegiendo al servidor de aplicaciones contra accesos no autorizados desde el exterior.
 
-![Configuración de Gateway](./assets/fase3-internetgateway-config.png)
+![Configuración de grupo de internet gateway](./assets/fase3-internetgateway-config.png)
 
 # Fase 4: Seguridad y Control de Acceso (Security Groups)
 
@@ -130,7 +130,7 @@ Se han definido tres grupos de seguridad independientes para aplicar políticas 
 Protege el primer punto de entrada en la zona `us-east-2a`.
 * **Inbound Rules**: 
     * HTTP (80) desde `0.0.0.0/0`.
-![Configuración de Gateway](./assets/fas4-securitygroup-G1.png)
+![Configuración de Grupo de seguridad1](./assets/fas4-securitygroup-G1.png)
 
 
 #### 2. SecurityG2 (ProxyServer2)
@@ -139,4 +139,11 @@ Protege el segundo punto de entrada en la zona `us-east-2b`.
     * HTTP (80) desde `0.0.0.0/0`.
     
 
-![Configuración de Gateway](./assets/fas4-securitygroup-G2.png)
+![Configuración de grupo de seguridad2](./assets/fas4-securitygroup-G2.png)
+
+#### 3. SecurityG3 (pweb / AppServer)
+El "Guardia del Búnker". Es el grupo más crítico, ya que aplica el encadenamiento de seguridad.
+* **Inbound Rules**:
+    * **TCP (80/8080)**: El origen (*Source*) son los IDs de **SecurityG1** y **SecurityG2**. Esto garantiza que la aplicación solo responda a peticiones legítimas provenientes de los proxies.
+
+![Configuración de grupo de seguridad3](./assets/fas4-securitygroup-G3.png)
