@@ -132,3 +132,11 @@ Protege el primer punto de entrada en la zona `us-east-2a`.
     * HTTP (80) desde `0.0.0.0/0`.
 ![Configuración de Gateway](./assets/fas4-securitygroup-G1.png)
 
+
+#### 2. SecurityG2 (ProxyServer2)
+Protege el segundo punto de entrada en la zona `us-east-2b`.
+* **Inbound Rules**: 
+    * HTTP (80) desde `0.0.0.0/0`.
+    
+
+![Configuración de Gateway](./assets/fas4-securitygroup-G2.png)
