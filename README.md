@@ -147,3 +147,39 @@ El "Guardia del Búnker". Es el grupo más crítico, ya que aplica el encadenami
     * **TCP (80/8080)**: El origen (*Source*) son los IDs de **SecurityG1** y **SecurityG2**. Esto garantiza que la aplicación solo responda a peticiones legítimas provenientes de los proxies.
 
 ![Configuración de grupo de seguridad3](./assets/fas4-securitygroup-G3.png)
+
+# Fase 5: Despliegue de Instancias EC2
+
+En esta etapa se procede al lanzamiento de las instancias de cómputo que materializan la arquitectura. Se han configurado tres servidores bajo el modelo de responsabilidad compartida, asegurando que cada uno cumpla un rol específico en la topología de red.
+
+## 1. Nivel Público (Entry Points)
+Se han desplegado dos servidores en las subredes públicas para actuar como proxies y garantizar la disponibilidad del servicio.
+
+### ProxyServer1
+* **Subred**: `SubnetPublic1` (Zona `us-east-2a`).
+* **Auto-assign Public IP**: **Enabled**. Necesario para permitir el tráfico HTTP desde internet.
+* **Security Group**: `SecurityG1` (Permite puerto 80).
+
+
+![Configuración del EC1-proxyServer1](./assets/fas5-ec2-proxy1.png)
+
+
+### ProxyServer2
+* **Subred**: `SubnetPublic2` (Zona `us-east-2a`).
+* **Auto-assign Public IP**: **Enabled**. Proporciona redundancia al sistema.
+* **Security Group**: `SecurityG2` (Espejo de G1).
+
+![Configuración del EC1-proxyServer2](./assets/fas5-ec2-proxy2.png)
+
+---
+
+## 2. Nivel Privado (Backend Búnker)
+El núcleo de la aplicación se encuentra en un entorno estrictamente aislado.
+
+### pweb (AppServer)
+* **Subred**: `SubnetPrivate1` (Zona `us-east-2a`).
+* **Auto-assign Public IP**: **Disabled**. Por diseño de seguridad, este servidor no tiene visibilidad directa desde internet, mitigando ataques de fuerza bruta o escaneos externos.
+* **Security Group**: `SecurityG3`. Solo permite tráfico entrante si el origen son los IDs de `SecurityG1` o `SecurityG2`.
+
+---
+![Configuración del EC1-proxyServer3](./assets/fas5-ec2-proxy3.png)
