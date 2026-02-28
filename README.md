@@ -123,12 +123,12 @@ En este punto es donde se establece la diferencia técnica y lógica entre los s
 
 En esta fase se implementa la capa de seguridad perimetral y de host mediante el uso de **Security Groups**. Estos actúan como firewalls con estado (*stateful*) a nivel de instancia, permitiendo filtrar el tráfico entrante y saliente según reglas específicas de protocolos y puertos.
 
-### Estrategia de "Defensa en Profundidad"
-Para proteger el servidor de aplicaciones (`pweb`), se ha optado por una configuración de filtrado jerárquico:
+### Estrategia de Micro-segmentación
+Se han definido tres grupos de seguridad independientes para aplicar políticas de acceso granulares en cada nodo de la red:
 
-#### 1. Grupo de Seguridad: SG-Proxies
-Este grupo protege a los servidores situados en las subredes públicas (`SubnetPublic1` y `SubnetPublic2`).
-* **Inbound Rules (Entrada)**:
-    * **HTTP (80)**: Permitido desde `0.0.0.0/0`. Permite el acceso web público a los proxies.
-    * **SSH (22)**: Permitido únicamente desde la **IP administrativa** del administrador para tareas de gestión segura.
-* **Outbound Rules (Salida)**: Permitido todo el tráfico por defecto (Stateful).
+#### 1. SecurityG1 (ProxyServer1)
+Protege el primer punto de entrada en la zona `us-east-2a`.
+* **Inbound Rules**: 
+    * HTTP (80) desde `0.0.0.0/0`.
+![Configuración de Gateway](./assets/fas4-securitygroup-G1.png)
+
